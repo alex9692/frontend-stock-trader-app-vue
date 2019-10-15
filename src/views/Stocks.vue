@@ -1,0 +1,72 @@
+<template>
+	<div>
+		<b-row align-h="around" class="my-3">
+			<b-col cols="5" class="mb-4" v-for="stock in stocks" :key="stock.name">
+				<b-card header-text-variant="dark-green" header-bg-variant="light-green">
+					<template v-slot:header>
+						<h5 class="mb-0">
+							{{stock.name}}
+							<span style="font-size: 12px">(Price: {{stock.price}})</span>
+						</h5>
+					</template>
+					<b-row>
+						<b-col cols="5">
+							<b-form-input placeholder="Quantity" type="number" v-model="quantity[stock.name]"></b-form-input>
+						</b-col>
+						<b-col cols="2" class="ml-auto">
+							<b-button
+								:disabled="!quantity[stock.name]"
+								variant="light-green"
+								class="font-weight-bold"
+								@click="addToPortfolio(stock.name, stock.price, $event)"
+							>Buy</b-button>
+						</b-col>
+					</b-row>
+				</b-card>
+			</b-col>
+		</b-row>
+	</div>
+</template>
+
+<script>
+	import { mapState } from "vuex";
+	export default {
+		data() {
+			return {
+				quantity: {
+					BMW: "",
+					Google: "",
+					Apple: "",
+					Twitter: ""
+				}
+			};
+		},
+		computed: {
+			...mapState(["stocks"])
+		},
+		methods: {
+			addToPortfolio(stockName) {
+
+				this.$store.dispatch("addStockToPortfolio", {
+					name: stockName,
+					quantity: this.quantity[stockName]
+				});
+				this.quantity[stockName] = "";
+			}
+		}
+	};
+</script>
+
+<style scoped>
+	.bg-light-green {
+		background-color: #d3e6c0;
+	}
+	.text-dark-green {
+		color: #788f62;
+	}
+	.btn-light-green {
+		color: #fff;
+		background-color: #a7d17d;
+		border-color: #a7d17d;
+	}
+</style>
