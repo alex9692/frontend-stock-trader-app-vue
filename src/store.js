@@ -84,7 +84,6 @@ export default new Vuex.Store({
 			const findBoughtStock = state.boughtStocks.find(
 				el => el.name === payload.name
 			);
-
 			if (findBoughtStock) {
 				findBoughtStock.quantity -= payload.quantity;
 			}

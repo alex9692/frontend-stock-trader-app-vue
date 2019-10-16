@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<b-row align-h="around" class="my-3">
-			<b-col cols="5" class="mb-4" v-for="stock in stocks" :key="stock.name">
+			<b-col cols="5" class="mb-4" v-for="stock in stocks.stocks" :key="stock.name">
 				<b-card header-text-variant="dark-green" header-bg-variant="light-green">
 					<template v-slot:header>
 						<h5 class="mb-0">
@@ -15,10 +15,10 @@
 						</b-col>
 						<b-col cols="2" class="ml-auto">
 							<b-button
-								:disabled="!quantity[stock.name]"
+								:disabled="quantity[stock.name] <= 0 || Number.isInteger(quantity[stock.name])"
 								variant="light-green"
 								class="font-weight-bold"
-								@click="addToPortfolio(stock.name, stock.price, $event)"
+								@click="addToPortfolio(stock.name, stock.price)"
 							>Buy</b-button>
 						</b-col>
 					</b-row>
@@ -45,11 +45,11 @@
 			...mapState(["stocks"])
 		},
 		methods: {
-			addToPortfolio(stockName) {
-
-				this.$store.dispatch("addStockToPortfolio", {
+			addToPortfolio(stockName, stockPrice) {
+				this.$store.dispatch("buyStock", {
 					name: stockName,
-					quantity: this.quantity[stockName]
+					quantity: +this.quantity[stockName],
+					price: stockPrice
 				});
 				this.quantity[stockName] = "";
 			}

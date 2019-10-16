@@ -37,9 +37,9 @@
 			}
 		},
 		computed: {
-			...mapState(["funds"]),
+			...mapState(["global"]),
 			formattedFund() {
-				return this.funds.toLocaleString();
+				return this.global.funds.toLocaleString();
 			}
 		}
 	};

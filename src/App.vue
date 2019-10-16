@@ -19,34 +19,38 @@
 
 <script>
 	import Header from "./components/Header/Header";
-	import { mapState } from "vuex";
+	import { mapGetters } from "vuex";
 	export default {
 		components: {
 			"app-header": Header
 		},
-		data() {
-			return {
-				fundsError: false,
-				loadError: false,
-				saveError: false
-			};
+		created() {
+			this.$store.dispatch("setStock");
 		},
 		computed: {
-			...mapState(["error"])
+			...mapGetters(["error", "fundsError", "loadError"])
 		},
 		watch: {
-			[error.fundsError.error]: function(val) {
+			fundsError: function(val) {
 				if (val) {
-					this.$bvToast.show(`example-toast-${error.fundsError.name}`);
+					this.$bvToast.show(
+						`example-toast-${this.error.fundsError.name}`
+					);
 				} else {
-					this.$bvToast.hide(`example-toast-${error.fundsError.name}`);
+					this.$bvToast.hide(
+						`example-toast-${this.error.fundsError.name}`
+					);
 				}
 			},
-			[error.loadError.error]: function(val) {
+			loadError: function(val) {
 				if (val) {
-					this.$bvToast.show(`example-toast-${error.loadError.name}`);
+					this.$bvToast.show(
+						`example-toast-${this.error.loadError.name}`
+					);
 				} else {
-					this.$bvToast.hide(`example-toast-${error.loadError.name}`);
+					this.$bvToast.hide(
+						`example-toast-${this.error.loadError.name}`
+					);
 				}
 			}
 		}

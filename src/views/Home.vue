@@ -15,10 +15,10 @@
 
 	export default {
 		computed: {
-      ...mapState(["funds"]),
-      formattedFund() {
-        return this.funds.toLocaleString()
-      }
+			...mapState(["global"]),
+			formattedFund() {
+				return this.global.funds.toLocaleString();
+			}
 		}
 	};
 </script>
