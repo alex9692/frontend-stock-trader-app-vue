@@ -1,72 +1,16 @@
 <template>
-	<div>
-		<b-row align-h="around" class="my-3">
-			<b-col cols="5" class="mb-4" v-for="stock in stocks.stocks" :key="stock.name">
-				<b-card header-text-variant="dark-green" header-bg-variant="light-green">
-					<template v-slot:header>
-						<h5 class="mb-0">
-							{{stock.name}}
-							<span style="font-size: 12px">(Price: {{stock.price}})</span>
-						</h5>
-					</template>
-					<b-row>
-						<b-col cols="5">
-							<b-form-input placeholder="Quantity" type="number" v-model="quantity[stock.name]"></b-form-input>
-						</b-col>
-						<b-col cols="2" class="ml-auto">
-							<b-button
-								:disabled="quantity[stock.name] <= 0 || Number.isInteger(quantity[stock.name])"
-								variant="light-green"
-								class="font-weight-bold"
-								@click="addToPortfolio(stock.name, stock.price)"
-							>Buy</b-button>
-						</b-col>
-					</b-row>
-				</b-card>
-			</b-col>
-		</b-row>
-	</div>
+	<app-stock :stocks="stocks.stocks"></app-stock>
 </template>
 
 <script>
+	import Stock from "../components/Stock/Stock";
 	import { mapState } from "vuex";
 	export default {
-		data() {
-			return {
-				quantity: {
-					BMW: "",
-					Google: "",
-					Apple: "",
-					Twitter: ""
-				}
-			};
+		components: {
+			"app-stock": Stock
 		},
 		computed: {
 			...mapState(["stocks"])
-		},
-		methods: {
-			addToPortfolio(stockName, stockPrice) {
-				this.$store.dispatch("buyStock", {
-					name: stockName,
-					quantity: +this.quantity[stockName],
-					price: stockPrice
-				});
-				this.quantity[stockName] = "";
-			}
 		}
 	};
 </script>
-
-<style scoped>
-	.bg-light-green {
-		background-color: #d3e6c0;
-	}
-	.text-dark-green {
-		color: #788f62;
-	}
-	.btn-light-green {
-		color: #fff;
-		background-color: #a7d17d;
-		border-color: #a7d17d;
-	}
-</style>

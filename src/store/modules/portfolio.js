@@ -48,12 +48,26 @@ const actions = {
 	},
 	sellStock: (context, payload) => {
 		context.commit("SELL_STOCK", payload);
-		console.log(payload);
 		context.commit("ADD_FUNDS", payload);
 	}
 };
 
-const getters = {};
+const getters = {
+	portfolioStocks: (state, getters, rootState) => {
+		if (state.boughtStocks.length == 0) {
+			return [];
+		}
+		return state.boughtStocks.map(stock => {
+			const findStock = rootState.stocks.stocks.find(
+				el => el.name === stock.name
+			);
+			return {
+				...stock,
+				price: findStock.price
+			};
+		});
+	}
+};
 
 export default {
 	state,
