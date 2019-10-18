@@ -5,20 +5,17 @@
 			<p class="mb-1">You may save & Load your Data</p>
 			<p>Click on 'End Day' to begin a new Day!</p>
 			<hr />
-			<h3>Your Funds: ${{formattedFund}}</h3>
+			<h3>Your Funds: {{ funds | currency }}</h3>
 		</b-card>
 	</div>
 </template>
 
 <script>
-	import { mapState } from "vuex";
+	import { mapGetters } from "vuex";
 
 	export default {
 		computed: {
-			...mapState(["global"]),
-			formattedFund() {
-				return this.global.funds.toLocaleString();
-			}
+			...mapGetters(["funds"])
 		}
 	};
 </script>

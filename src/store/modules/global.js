@@ -77,6 +77,9 @@ const getters = {
 	},
 	loadError: state => {
 		return state.error.loadError.error;
+	},
+	funds: state => {
+		return state.funds;
 	}
 };
 

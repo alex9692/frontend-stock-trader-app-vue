@@ -15,7 +15,7 @@
 						</b-col>
 						<b-col cols="2" class="ml-auto">
 							<b-button
-								:disabled="quantity[stock.name] <= 0 || Number.isInteger(quantity[stock.name])"
+								:disabled="quantity[stock.name] <= 0 || !Number.isInteger(+quantity[stock.name])"
 								variant="light-green"
 								class="font-weight-bold"
 								@click="addToPortfolio(stock.name, stock.price)"

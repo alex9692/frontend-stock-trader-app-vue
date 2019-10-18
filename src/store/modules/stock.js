@@ -5,22 +5,13 @@ const state = {
 };
 
 const mutations = {
-	SET_STOCKS(state, payload) {
-		state.stocks = payload;
-	},
 	END_DAY: state => {
-		// const randomNo = Math.floor(Math.random() * (max - min + 1) + min);
 		state.stocks.forEach(stock => {
-			let max = CONSTANT_PRICE[stock.name] + 50;
-			let min = CONSTANT_PRICE[stock.name] - 50;
-			if (stock.name === "Twitter") {
-				max = CONSTANT_PRICE[stock.name] + 50;
-				min = CONSTANT_PRICE[stock.name] - 5;
-			}
-			const randomNo = Math.floor(Math.random() * (max - min + 1) + min);
-			stock.price = randomNo;
-			if (stock.price <= 0) {
-				stock.price = 1;
+			let max = CONSTANT_PRICE[stock.name] * 2;
+			let min = CONSTANT_PRICE[stock.name] / 2;
+			stock.price = Math.floor(Math.random() * (max - min + 1) + min);
+			if (stock.price <= 1) {
+				stock.price = 2;
 			}
 		});
 	},
@@ -30,7 +21,7 @@ const mutations = {
 };
 const actions = {
 	setStock: context => {
-		context.commit("SET_STOCKS", stocks);
+		context.commit("LOAD_STOCKS_DATA", stocks);
 	},
 	endDay: context => {
 		setTimeout(() => {

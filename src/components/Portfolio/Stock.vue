@@ -7,7 +7,7 @@
 				<p class="mb-1">Please buy stocks from the 'Stocks' page.</p>
 			</b-card>
 		</div>
-		<b-row align-h="around" class="my-3">
+		<b-row v-if="stocks.length > 0" align-h="around" class="my-3">
 			<b-col cols="5" class="mb-4" v-for="stock in stocks" :key="stock.name">
 				<b-card header-text-variant="dark-green" header-bg-variant="light-green">
 					<template v-slot:header>
@@ -34,7 +34,7 @@
 								variant="light-green"
 								class="font-weight-bold"
 								@click="sellStocks(stock.name, stock.price)"
-								:disabled="quantity[stock.name] <= 0 || quantity[stock.name] > stock.quantity || Number.isInteger(quantity[stock.name])"
+								:disabled="checkQuantity(quantity[stock.name], stock.quantity)"
 							>Sell</b-button>
 						</b-col>
 					</b-row>
@@ -56,7 +56,7 @@
 					Twitter: ""
 				},
 				checkInvalid: {
-					BWM: false,
+					BMW: false,
 					Google: false,
 					Apple: false,
 					Twitter: false
@@ -71,8 +71,16 @@
 					price: stockPrice
 				});
 				this.quantity[stockName] = "";
+			},
+			checkQuantity(quantity, stockQuantity) {
+				return (
+					quantity <= 0 ||
+					quantity > stockQuantity ||
+					!Number.isInteger(+quantity)
+				);
 			}
-		}
+		},
+		computed: {}
 	};
 </script>
 
